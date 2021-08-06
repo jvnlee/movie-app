@@ -4,6 +4,8 @@ import styled from "styled-components";
 import Loader from "Components/Loader";
 import Helmet from "react-helmet";
 import Message from "Components/Message";
+import Section from "Components/Section";
+import Poster from "Components/Poster";
 
 const Container = styled.div`
   height: calc(100vh - 50px);
@@ -21,7 +23,7 @@ const Backdrop = styled.div`
   background-image: url(${(props) => props.bgImage});
   background-position: center center;
   background-size: cover;
-  filter: blur(3px);
+  filter: blur(10px);
   opacity: 0.5;
   z-index: 0;
 `;
@@ -45,21 +47,32 @@ const Cover = styled.div`
 
 const Data = styled.div`
   width: 70%;
-  margin-left: 10px;
+  margin-left: 50px;
 `;
 
 const Title = styled.h3`
   font-size: 32px;
 `;
 
-const ItemContainer = styled.span`
+const ItemContainer = styled.div`
   margin: 20px 0;
 `;
 
-const Item = styled.span``;
+const Item = styled.span`
+  font-size: 14px;
+`;
 
 const Divider = styled.span`
   margin: 0 10px;
+`;
+
+const Imdb = styled.a``;
+
+const Logo = styled.img`
+  position: relative;
+  top: 6px;
+  width: 40px;
+  height: auto;
 `;
 
 const Overview = styled.p`
@@ -67,6 +80,23 @@ const Overview = styled.p`
   opacity: 0.7;
   line-height: 1.5;
   width: 50%;
+  margin-bottom: 20px;
+`;
+
+const VideoContainer = styled.div`
+  width: 60%;
+  height: 500px;
+  margin-bottom: 50px;
+`;
+
+const Video = styled.iframe`
+  width: 100%;
+  height: 100%;
+`;
+
+const SimilarContainer = styled.div`
+  width: 100%;
+  height: 100%;
 `;
 
 const DetailPresenter = ({ result, error, loading }) =>
@@ -123,8 +153,49 @@ const DetailPresenter = ({ result, error, loading }) =>
                     : `${genre.name} / `
                 )}
             </Item>
+            <Divider>·</Divider>
+            <Imdb
+              href={
+                result.imdb_id
+                  ? `https://www.imdb.com/title/${result.imdb_id}`
+                  : null
+              }
+            >
+              <Logo src={require("assets/imdb.png").default} alt="imdb logo" />
+            </Imdb>
           </ItemContainer>
           <Overview>{result.overview}</Overview>
+          <VideoContainer>
+            {result.videos.results.length > 0 ? (
+              <Video
+                src={`https://www.youtube.com/embed/${result.videos.results[0].key}`}
+                title="YouTube video player"
+                allowfullscreen="allowfullscreen"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              ></Video>
+            ) : (
+              "No trailers available"
+            )}
+          </VideoContainer>
+          <SimilarContainer>
+            {result.similar.results && result.similar.results.length > 0 && (
+              <Section title="Similar Contents">
+                {result.similar.results.map((movie) => (
+                  <Poster
+                    key={movie.id}
+                    id={movie.id}
+                    imageUrl={movie.poster_path}
+                    title={movie.original_title}
+                    rating={movie.vote_average}
+                    isMovie={true}
+                    year={
+                      movie.release_date && movie.release_date.substring(0, 4)
+                    }
+                  />
+                ))}
+              </Section>
+            )}
+          </SimilarContainer>
         </Data>
       </Content>
     </Container>
