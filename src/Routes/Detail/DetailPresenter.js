@@ -86,7 +86,8 @@ const Overview = styled.p`
 const VideoContainer = styled.div`
   width: 60%;
   height: 500px;
-  margin-bottom: 50px;
+  margin-bottom: 40px;
+  font-size: 14px;
 `;
 
 const Video = styled.iframe`
@@ -96,7 +97,7 @@ const Video = styled.iframe`
 
 const SimilarContainer = styled.div`
   width: 100%;
-  height: 100%;
+  height: auto;
 `;
 
 const DetailPresenter = ({ result, error, loading }) =>
@@ -158,7 +159,7 @@ const DetailPresenter = ({ result, error, loading }) =>
               href={
                 result.imdb_id
                   ? `https://www.imdb.com/title/${result.imdb_id}`
-                  : null
+                  : `https://www.imdb.com/title/${result.external_ids.imdb_id}`
               }
             >
               <Logo src={require("assets/imdb.png").default} alt="imdb logo" />
@@ -170,16 +171,17 @@ const DetailPresenter = ({ result, error, loading }) =>
               <Video
                 src={`https://www.youtube.com/embed/${result.videos.results[0].key}`}
                 title="YouTube video player"
-                allowfullscreen="allowfullscreen"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
               ></Video>
             ) : (
               "No trailers available"
             )}
           </VideoContainer>
           <SimilarContainer>
-            {result.similar.results && result.similar.results.length > 0 && (
-              <Section title="Similar Contents">
+            {result.similar.results &&
+            result.similar.results.length > 0 &&
+            result.original_title ? (
+              <Section title="Similar Movies">
                 {result.similar.results.map((movie) => (
                   <Poster
                     key={movie.id}
@@ -190,6 +192,21 @@ const DetailPresenter = ({ result, error, loading }) =>
                     isMovie={true}
                     year={
                       movie.release_date && movie.release_date.substring(0, 4)
+                    }
+                  />
+                ))}
+              </Section>
+            ) : (
+              <Section title="Similar Shows">
+                {result.similar.results.map((show) => (
+                  <Poster
+                    key={show.id}
+                    id={show.id}
+                    imageUrl={show.poster_path}
+                    title={show.original_name}
+                    rating={show.vote_average}
+                    year={
+                      show.first_air_date && show.first_air_date.substring(0, 4)
                     }
                   />
                 ))}
