@@ -1,0 +1,19 @@
+{
+  "files": {
+    "main.js": "/junflix/static/js/main.2e98ed07.chunk.js",
+    "main.js.map": "/junflix/static/js/main.2e98ed07.chunk.js.map",
+    "runtime-main.js": "/junflix/static/js/runtime-main.bb1aa26d.js",
+    "runtime-main.js.map": "/junflix/static/js/runtime-main.bb1aa26d.js.map",
+    "static/js/2.ae945505.chunk.js": "/junflix/static/js/2.ae945505.chunk.js",
+    "static/js/2.ae945505.chunk.js.map": "/junflix/static/js/2.ae945505.chunk.js.map",
+    "index.html": "/junflix/index.html",
+    "static/js/2.ae945505.chunk.js.LICENSE.txt": "/junflix/static/js/2.ae945505.chunk.js.LICENSE.txt",
+    "static/media/imdb.png": "/junflix/static/media/imdb.51a0440f.png",
+    "static/media/noPoster.png": "/junflix/static/media/noPoster.280f255f.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.bb1aa26d.js",
+    "static/js/2.ae945505.chunk.js",
+    "static/js/main.2e98ed07.chunk.js"
+  ]
+}
